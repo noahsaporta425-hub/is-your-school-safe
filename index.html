@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Is Your School Safe? | Connecticut School Safety Initiative</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070c18;
+      --bg2: #0d1624;
+      --card: rgba(255,255,255,0.038);
+      --card-hover: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.075);
+      --border-glow: rgba(79,195,247,0.28);
+      --blue: #4fc3f7;
+      --blue-mid: #0288d1;
+      --cyan: #00e5ff;
+      --green: #00e676;
+      --amber: #ffca28;
+      --red: #ef5350;
+      --purple: #ce93d8;
+      --coral: #ff8a65;
+      --teal: #80cbc4;
+      --text: #eef2f7;
+      --text2: #8fa3b8;
+      --text3: #3d5264;
+      --display: 'Space Grotesk', sans-serif;
+      --body: 'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 90% 60% at 15% -10%, rgba(79,195,247,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 85% 115%, rgba(0,229,255,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(2,136,209,0.03) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(7,12,24,0.82);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; user-select: none;
+    }
+    .logo-icon { width: 34px; height: 34px; flex-shrink: 0; }
+    .logo-words { line-height: 1.15; }
+    .logo-top {
+      font-family: var(--display); font-size: 0.92rem; font-weight: 700;
+      color: var(--text);
+    }
+    .logo-sub {
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--blue);
+    }
+    .nav-links { display: flex; }
+    .nav-btn {
+      position: relative; padding: 0.45rem 1.1rem;
+      background: none; border: none;
+      font-family: var(--body); font-size: 0.85rem; font-weight: 500;
+      color: var(--text2); cursor: pointer;
+      transition: color 0.2s;
+    }
+    .nav-btn::after {
+      content: ''; position: absolute; bottom: -1px; left: 10%; right: 10%;
+      height: 2px; background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: 2px 2px 0 0;
+      transform: scaleX(0); transition: transform 0.25s ease;
+    }
+    .nav-btn:hover { color: var(--text); }
+    .nav-btn.active { color: var(--cyan); }
+    .nav-btn.active::after { transform: scaleX(1); }
+
+    /* ─── TABS ─── */
+    main { position: relative; z-index: 1; padding-top: 68px; }
+    .tab { display: none; animation: rise 0.38s ease; }
+    .tab.on { display: block; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SHARED ─── */
+    .wrap    { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .wrap-sm { max-width: 900px;  margin: 0 auto; padding: 0 2rem; }
+    .wrap-md { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+    .lbl {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--blue);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .lbl::before {
+      content: ''; display: block; width: 20px; height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: 2px;
+    }
+
+    .h1 {
+      font-family: var(--display);
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 800; line-height: 1.08;
+      letter-spacing: -0.025em;
+    }
+    .h2 {
+      font-family: var(--display);
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      font-weight: 700; line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .h3 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; }
+    .grad {
+      background: linear-gradient(120deg, var(--blue) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sub { color: var(--text2); font-size: 1rem; line-height: 1.75; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; padding: 2rem;
+      transition: background .25s, border-color .25s, transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .card:hover {
+      background: var(--card-hover); border-color: var(--border-glow);
+      transform: translateY(-3px); box-shadow: 0 18px 56px rgba(0,0,0,0.45);
+    }
+    .card-shine::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(79,195,247,0.5) 50%, transparent 100%);
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.28rem 0.9rem; border-radius: 100px;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .badge-blue  { background: rgba(79,195,247,0.1);  border: 1px solid rgba(79,195,247,0.25);  color: var(--blue); }
+    .badge-green { background: rgba(0,230,118,0.1);   border: 1px solid rgba(0,230,118,0.25);   color: var(--green); }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .dot-pulse { animation: pdot 2s ease infinite; }
+    @keyframes pdot { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.75)} }
+
+    hr.rule { height: 1px; background: var(--border); border: none; }
+
+    footer { padding: 1.75rem 2rem; text-align: center; border-top: 1px solid var(--border); }
+    footer p { font-size: 0.75rem; color: var(--text3); letter-spacing: 0.04em; }
+
+    /* ═══ HOME ═══ */
+    .hero {
+      min-height: calc(100vh - 68px);
+      display: flex; align-items: center;
+      padding: 5rem 2rem 3rem; position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: ''; position: absolute; top: -300px; right: -300px;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(79,195,247,0.055) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .hero-left > * + * { margin-top: 1.5rem; }
+    .hero-ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .825rem 1.75rem;
+      background: linear-gradient(135deg,#0288d1,#01579b);
+      color:#fff; border:none; border-radius:9px;
+      font-family:var(--body); font-size:.9rem; font-weight:600;
+      cursor:pointer; transition:all .25s; position:relative; overflow:hidden;
+    }
+    .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .2s}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(79,195,247,.28)}
+    .btn-primary:hover::before{opacity:1}
+
+    .btn-ghost {
+      display:inline-flex;align-items:center;gap:.45rem;
+      padding:.825rem 1.75rem;background:transparent;color:var(--text2);
+      border:1px solid var(--border);border-radius:9px;
+      font-family:var(--body);font-size:.9rem;font-weight:500;
+      cursor:pointer;transition:all .25s;
+    }
+    .btn-ghost:hover{border-color:var(--border-glow);color:var(--text)}
+
+    /* snapshot card */
+    .snapshot-card {
+      background:rgba(13,22,36,.9);border:1px solid var(--border);
+      border-radius:22px;padding:1.75rem;
+      box-shadow:0 32px 80px rgba(0,0,0,.55),0 0 0 1px rgba(79,195,247,.06);
+      position:relative;overflow:hidden;
+    }
+    .snapshot-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 10%,rgba(79,195,247,.55) 50%,transparent 90%)}
+    .snap-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+    .snap-title{font-family:var(--display);font-size:.75rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.1em}
+    .snap-score-row{display:flex;align-items:center;gap:1.75rem;margin-bottom:1.5rem}
+
+    .ring-wrap{position:relative;width:105px;height:105px;flex-shrink:0}
+    .ring-svg{width:105px;height:105px;transform:rotate(-90deg)}
+    .ring-bg{fill:none;stroke:rgba(255,255,255,.055);stroke-width:9}
+    .ring-fill{fill:none;stroke:url(#rg1);stroke-width:9;stroke-linecap:round;stroke-dasharray:270.177;stroke-dashoffset:32.42;transition:stroke-dashoffset 1.8s cubic-bezier(.16,1,.3,1)}
+    .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .ring-num{font-family:var(--display);font-size:1.7rem;font-weight:800;line-height:1}
+    .ring-denom{font-size:.6rem;color:var(--text2);font-weight:500;margin-top:1px}
+
+    .snap-meta{display:flex;flex-direction:column;gap:.4rem}
+
+    .cat-rows{display:flex;flex-direction:column;gap:.55rem}
+    .cat-row{display:flex;align-items:center;gap:.7rem}
+    .cat-name{font-size:.76rem;color:var(--text2);flex:1 1 120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bar-track{flex:1 1 80px;height:5px;background:rgba(255,255,255,.055);border-radius:10px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:10px}
+    .cat-pts{font-size:.72rem;font-weight:600;color:var(--text);width:34px;text-align:right;flex-shrink:0}
+
+    .snap-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border)}
+    .tag{display:inline-flex;align-items:center;gap:.28rem;padding:.2rem .65rem;background:rgba(79,195,247,.075);border:1px solid rgba(79,195,247,.15);border-radius:100px;font-size:.68rem;color:var(--blue)}
+
+    .quote-strip{padding:5rem 2rem}
+    .quote-box{max-width:820px;margin:0 auto;text-align:center}
+    .quote-text{font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,2.5vw,1.85rem);line-height:1.5;color:var(--text)}
+    .quote-text em{font-style:normal;color:var(--cyan)}
+    .quote-rule{width:56px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;margin:2rem auto 0}
+
+    .features-section{padding:5rem 2rem 6rem}
+    .section-head{text-align:center;margin-bottom:3.5rem}
+    .section-head .lbl{justify-content:center}
+    .section-head .lbl::before{display:none}
+    .section-head .h2{margin:1rem 0}
+    .section-head .sub{max-width:560px;margin:0 auto}
+
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .feat-icon{width:48px;height:48px;background:rgba(79,195,247,.09);border:1px solid rgba(79,195,247,.2);border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
+    .feat-card .h3{margin-bottom:.65rem}
+    .feat-card p{font-size:.875rem;color:var(--text2);line-height:1.75}
+
+    /* ═══ HOW IT WORKS ═══ */
+    .how-hero{padding:5rem 2rem 3rem;text-align:center}
+    .how-hero .lbl{justify-content:center}
+    .how-hero .lbl::before{display:none}
+    .how-hero .h1{margin:1rem 0 1.5rem}
+
+    .cats-section{padding:1rem 2rem 4rem}
+    .cats-grid{max-width:1100px;margin:2.5rem auto 0;display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
+    .cat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem 1rem;text-align:center;transition:transform .25s,border-color .25s}
+    .cat-card:hover{transform:translateY(-4px);border-color:var(--border-glow)}
+    .cat-pts-big{font-family:var(--display);font-size:2.6rem;font-weight:800;line-height:1;margin-bottom:.15rem}
+    .cat-pts-unit{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.7rem}
+    .cat-label{font-size:.78rem;color:var(--text2);line-height:1.45}
+
+    .process-section{padding:1rem 2rem 4rem}
+    .process-grid{max-width:1100px;margin:2.5rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .process-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:2rem;position:relative}
+    .step-num{font-family:var(--display);font-size:3.5rem;font-weight:900;color:rgba(79,195,247,.08);line-height:1;margin-bottom:.9rem}
+    .step-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--cyan);margin-bottom:.75rem}
+    .process-card p{font-size:.875rem;color:var(--text2);line-height:1.75}
+
+    .cred-section{padding:1rem 2rem 6rem}
+    .cred-grid{max-width:1100px;margin:2.5rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .cred-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;display:flex;gap:1rem;align-items:flex-start}
+    .cred-icon-wrap{width:36px;height:36px;flex-shrink:0;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:9px;display:flex;align-items:center;justify-content:center}
+    .cred-body strong{display:block;font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.25rem}
+    .cred-body p{font-size:.825rem;color:var(--text2);line-height:1.65}
+
+    /* ═══ SCORECARDS ═══ */
+    .sc-hero{padding:5rem 2rem 3rem;text-align:center}
+    .sc-hero .lbl{justify-content:center}
+    .sc-hero .lbl::before{display:none}
+    .sc-hero .h1{margin:1rem 0 1.5rem}
+
+    .sc-grid{max-width:1100px;margin:0 auto 5rem;padding:0 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .school-card{background:var(--card);border:1px solid var(--border);border-radius:22px;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s}
+    .school-card:hover{transform:translateY(-5px);border-color:var(--border-glow);box-shadow:0 24px 64px rgba(0,0,0,.5)}
+    .school-accent{height:3px;width:100%}
+    .school-body{padding:1.75rem}
+    .school-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.85rem}
+    .pilot-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.35rem}
+    .school-name{font-family:var(--display);font-size:1.15rem;font-weight:700;line-height:1.2}
+    .score-bubble{padding:.5rem .9rem;border-radius:12px;text-align:center;flex-shrink:0;margin-left:.75rem}
+    .score-big{font-family:var(--display);font-size:1.55rem;font-weight:900;line-height:1}
+    .score-small{font-size:.6rem;color:var(--text2);margin-top:1px}
+    .school-desc{font-size:.82rem;color:var(--text2);line-height:1.65;margin-bottom:1.4rem}
+    .school-cats{display:flex;flex-direction:column;gap:.6rem}
+    .school-cat-row{display:flex;align-items:center;gap:.65rem}
+    .sc-name{font-size:.76rem;color:var(--text2);flex:1}
+    .sc-track{flex:2;height:4px;background:rgba(255,255,255,.055);border-radius:10px;overflow:hidden}
+    .sc-fill{height:100%;border-radius:10px}
+    .sc-pts{font-size:.72rem;font-weight:600;color:var(--text);width:32px;text-align:right}
+
+    /* ═══ CONTACT ═══ */
+    .contact-section{padding:5rem 2rem 7rem;max-width:680px;margin:0 auto}
+    .contact-section .h1{margin:1rem 0 .75rem}
+    .contact-section .sub{margin-bottom:3rem;max-width:520px}
+    .form-shell{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;position:relative;overflow:hidden}
+    .form-shell::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(79,195,247,.5) 50%,transparent 100%)}
+    .form-row{margin-bottom:1.4rem}
+    .form-lbl{display:block;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:.45rem}
+    .form-req{color:var(--blue)}
+    .form-input,.form-textarea{width:100%;padding:.8rem 1rem;background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:var(--body);font-size:.92rem;transition:border-color .2s,background .2s,box-shadow .2s;outline:none;appearance:none}
+    .form-input:focus,.form-textarea:focus{border-color:rgba(79,195,247,.55);background:rgba(79,195,247,.04);box-shadow:0 0 0 3px rgba(79,195,247,.1)}
+    .form-input::placeholder,.form-textarea::placeholder{color:var(--text3)}
+    .form-textarea{resize:vertical;min-height:135px}
+    .form-submit{width:100%;padding:.95rem;background:linear-gradient(135deg,#0288d1,#01579b);color:#fff;border:none;border-radius:10px;font-family:var(--body);font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.02em;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+    .form-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .2s}
+    .form-submit:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(79,195,247,.3)}
+    .form-submit:hover::before{opacity:1}
+    .form-submit:active{transform:translateY(0)}
+
+    .success-msg{display:none;text-align:center;padding:1.5rem 0}
+    .success-msg.show{display:block}
+    .success-check{width:56px;height:56px;background:rgba(0,230,118,.12);border:1px solid rgba(0,230,118,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
+    .contact-note{margin-top:1.5rem;text-align:center;font-size:.82rem;color:var(--text3);line-height:1.6}
+
+    /* ─── colour helpers ─── */
+    .col-blue{color:var(--blue)} .col-purple{color:var(--purple)} .col-coral{color:var(--coral)} .col-amber{color:var(--amber)} .col-teal{color:var(--teal)} .col-green{color:var(--green)} .col-cyan{color:var(--cyan)}
+    .bg-bar-blue{background:linear-gradient(90deg,#4fc3f7,#29b6f6)} .bg-bar-purple{background:linear-gradient(90deg,#ab47bc,#9c27b0)} .bg-bar-coral{background:linear-gradient(90deg,#ff7043,#f4511e)} .bg-bar-green{background:linear-gradient(90deg,#00e676,#00c853)} .bg-bar-amber{background:linear-gradient(90deg,#ffca28,#ffb300)} .bg-bar-teal{background:linear-gradient(90deg,#80cbc4,#26a69a)}
+    .bubble-blue{background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.22)} .bubble-purple{background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.22)} .bubble-coral{background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.22)} .bubble-amber{background:rgba(255,202,40,.1);border:1px solid rgba(255,202,40,.22)}
+    .acc-blue{background:linear-gradient(90deg,#4fc3f7,#29b6f6)} .acc-purple{background:linear-gradient(90deg,#ab47bc,#9c27b0)} .acc-coral{background:linear-gradient(90deg,#ff7043,#f4511e)} .acc-amber{background:linear-gradient(90deg,#ffca28,#ffb300)}
+
+    /* responsive */
+    @media(max-width:900px){
+      .hero-grid{grid-template-columns:1fr;gap:3rem}
+      .feat-grid{grid-template-columns:1fr}
+      .cats-grid{grid-template-columns:repeat(2,1fr)}
+      .process-grid{grid-template-columns:1fr}
+      .cred-grid{grid-template-columns:1fr}
+      .sc-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .cats-grid{grid-template-columns:1fr 1fr}
+      .form-shell{padding:1.75rem 1.25rem}
+      .nav-btn{padding:.4rem .75rem;font-size:.8rem}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="goTab('home')">
+      <svg class="logo-icon" viewBox="0 0 34 34" fill="none">
+        <path d="M17 2.5L4.5 7.5v9c0 7.456 5.4 14.44 12.5 16.5 7.1-2.06 12.5-9.044 12.5-16.5v-9L17 2.5Z" fill="rgba(79,195,247,0.1)" stroke="#4fc3f7" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M12 17l3.5 3.5 7-7" stroke="#00e5ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="logo-words">
+        <div class="logo-top">Is Your School Safe?</div>
+        <div class="logo-sub">Fairfield County Initiative</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn active" data-tab="home"       onclick="goTab('home')">Home</button>
+      <button class="nav-btn"        data-tab="how"        onclick="goTab('how')">How It Works</button>
+      <button class="nav-btn"        data-tab="scorecards" onclick="goTab('scorecards')">Scorecards</button>
+      <button class="nav-btn"        data-tab="contact"    onclick="goTab('contact')">Contact</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════ HOME ═══════════ -->
+<div class="tab on" id="tab-home">
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="badge badge-blue">
+          <span class="dot bg-bar-blue dot-pulse"></span>
+          Fairfield County · Connecticut
+        </div>
+        <h1 class="h1">School safety<br>should be <span class="grad">transparent.</span></h1>
+        <p class="sub">A nonprofit concept designed to make school safety clearer, more measurable, and more transparent for parents, students, and communities — starting with Connecticut.</p>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="goTab('scorecards')">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="11" width="4" height="3" rx=".5" fill="white"/><rect x="5.5" y="7" width="4" height="7" rx=".5" fill="white"/><rect x="10" y="3" width="4" height="11" rx=".5" fill="white"/></svg>
+            View Scorecards
+          </button>
+          <button class="btn-ghost" onclick="goTab('how')">How It Works →</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="snapshot-card">
+          <div class="snap-header">
+            <div class="snap-title">Sample School Safety Snapshot</div>
+            <div style="font-size:.65rem;color:var(--text3);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:.18rem .6rem;border-radius:100px;">Sample Data</div>
+          </div>
+          <div class="snap-score-row">
+            <div class="ring-wrap">
+              <svg class="ring-svg" viewBox="0 0 105 105">
+                <defs>
+                  <linearGradient id="rg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4fc3f7"/>
+                    <stop offset="100%" stop-color="#00e5ff"/>
+                  </linearGradient>
+                </defs>
+                <circle class="ring-bg" cx="52.5" cy="52.5" r="43"/>
+                <circle class="ring-fill" cx="52.5" cy="52.5" r="43" stroke-dasharray="270.177" stroke-dashoffset="32.42"/>
+              </svg>
+              <div class="ring-center">
+                <div class="ring-num col-cyan">88</div>
+                <div class="ring-denom">/ 100</div>
+              </div>
+            </div>
+            <div class="snap-meta">
+              <div class="h3" style="font-size:1.05rem;margin-bottom:.5rem;">Overall Score</div>
+              <div class="badge badge-green" style="margin-bottom:.5rem;">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#00e676" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Strong
+              </div>
+              <p style="font-size:.78rem;color:var(--text2);line-height:1.55;max-width:160px;">Exceeds baseline across all five safety categories.</p>
+            </div>
+          </div>
+          <div class="cat-rows">
+            <div class="cat-row"><div class="cat-name">Prevention &amp; Support</div><div class="bar-track"><div class="bar-fill bg-bar-blue"   style="width:88%"></div></div><div class="cat-pts">22/25</div></div>
+            <div class="cat-row"><div class="cat-name">Building Security</div>     <div class="bar-track"><div class="bar-fill bg-bar-purple" style="width:85%"></div></div><div class="cat-pts">17/20</div></div>
+            <div class="cat-row"><div class="cat-name">Classroom Protection</div>  <div class="bar-track"><div class="bar-fill bg-bar-coral"  style="width:90%"></div></div><div class="cat-pts">9/10</div></div>
+            <div class="cat-row"><div class="cat-name">Emergency Response</div>    <div class="bar-track"><div class="bar-fill bg-bar-green"  style="width:90%"></div></div><div class="cat-pts">18/20</div></div>
+            <div class="cat-row"><div class="cat-name">Transparency &amp; Record</div><div class="bar-track"><div class="bar-fill bg-bar-amber"  style="width:88%"></div></div><div class="cat-pts">22/25</div></div>
+          </div>
+          <div class="snap-tags">
+            <div class="tag"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#4fc3f7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Anonymous Reporting</div>
+            <div class="tag"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#4fc3f7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Locked Controlled Entry</div>
+            <div class="tag"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#4fc3f7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Lockdown Capability</div>
+            <div class="tag"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#4fc3f7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Mass Notification</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-strip">
+    <div class="quote-box">
+      <p class="quote-text">Families can compare <em>academics.</em><br>They should be able to compare <em>safety, too.</em></p>
+      <div class="quote-rule"></div>
+    </div>
+  </section>
+
+  <hr class="rule" style="max-width:1200px;margin:0 auto;">
+
+  <section class="features-section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="lbl">What We Do</div>
+        <h2 class="h2">Safety data, made simple.</h2>
+        <p class="sub">Most school safety information is scattered across district pages, policy documents, and public records. This platform turns that into a clear, trusted, standardized view.</p>
+      </div>
+      <div class="feat-grid">
+        <div class="card feat-card card-shine">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="3" width="18" height="13" rx="2" stroke="#4fc3f7" stroke-width="1.5"/><path d="M7 19h8M11 16v3" stroke="#4fc3f7" stroke-width="1.5" stroke-linecap="round"/><path d="M6.5 10.5l2 2 4-4" stroke="#00e5ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="h3">Transparent Safety Scorecards</div>
+          <p>See how Connecticut high schools compare on prevention, building security, classroom protection, emergency response, and transparency — all in one place.</p>
+        </div>
+        <div class="card feat-card card-shine">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8.5" r="4" stroke="#4fc3f7" stroke-width="1.5"/><path d="M3.5 19.5c0-4.142 3.358-7.5 7.5-7.5s7.5 3.358 7.5 7.5" stroke="#4fc3f7" stroke-width="1.5" stroke-linecap="round"/><path d="M16 6.5l2 2" stroke="#00e5ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div class="h3">Parent-Friendly Ratings</div>
+          <p>We turn hard-to-find safety information into a clear, understandable rating families can actually use — no policy documents or technical expertise required.</p>
+        </div>
+        <div class="card feat-card card-shine">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L3 6v6c0 5.25 3.4 10.15 8 11.9 4.6-1.75 8-6.65 8-11.9V6L11 2Z" stroke="#4fc3f7" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.5 11.5l2.5 2.5 5-5" stroke="#00e5ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="h3">Built for Action</div>
+          <p>Help schools identify gaps and improve systems like panic alerts, anonymous reporting, and drill readiness — with actionable recommendations tied to each category.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><p>COPYRIGHT &copy; 2026 IS YOUR SCHOOL SAFE? &mdash; ALL RIGHTS RESERVED</p></footer>
+</div>
+
+<!-- ═══════════ HOW IT WORKS ═══════════ -->
+<div class="tab" id="tab-how">
+  <div class="how-hero">
+    <div class="wrap-sm">
+      <div class="lbl">The Scorecard</div>
+      <h1 class="h1">A transparent framework<br>built around <span class="grad">100 points</span></h1>
+      <p class="sub" style="max-width:580px;margin:0 auto;">Schools are evaluated on practical indicators that families and communities care about most — using a methodology that is consistent, explainable, and designed to encourage improvement.</p>
+    </div>
+  </div>
+
+  <section class="cats-section">
+    <div class="wrap-md">
+      <div class="lbl">Score Breakdown</div>
+      <div class="cats-grid">
+        <div class="cat-card"><div class="cat-pts-big col-blue">25</div><div class="cat-pts-unit col-blue">pts</div><div class="cat-label">Prevention &amp; Student Support</div></div>
+        <div class="cat-card"><div class="cat-pts-big col-purple">20</div><div class="cat-pts-unit col-purple">pts</div><div class="cat-label">Building Security</div></div>
+        <div class="cat-card"><div class="cat-pts-big col-coral">10</div><div class="cat-pts-unit col-coral">pts</div><div class="cat-label">Classroom Protection</div></div>
+        <div class="cat-card"><div class="cat-pts-big col-teal">20</div><div class="cat-pts-unit col-teal">pts</div><div class="cat-label">Emergency Response Systems</div></div>
+        <div class="cat-card"><div class="cat-pts-big col-amber">25</div><div class="cat-pts-unit col-amber">pts</div><div class="cat-label">Transparency &amp; Safety Record</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="wrap-md">
+      <div class="lbl">How It Works</div>
+      <h2 class="h2" style="margin-top:.8rem;">Simple for families.<br>Rigorous behind the scenes.</h2>
+      <div class="process-grid">
+        <div class="process-card card-shine"><div class="step-num">01</div><div class="step-title">Research</div><p>We research public safety policies, district materials, and official school information using primary sources and government documents.</p></div>
+        <div class="process-card card-shine"><div class="step-num">02</div><div class="step-title">Verify</div><p>We verify key safety features through direct outreach, documentation review, and site-based evidence when available.</p></div>
+        <div class="process-card card-shine"><div class="step-num">03</div><div class="step-title">Publish</div><p>We score each school using a consistent methodology and publish easy-to-read results that families can understand and act on.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cred-section">
+    <div class="wrap-md">
+      <div class="lbl">Designed for Credibility</div>
+      <h2 class="h2" style="margin-top:.8rem;margin-bottom:0;">What makes this model strong</h2>
+      <div class="cred-grid">
+        <div class="cred-card"><div class="cred-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M2 8.5l4 4 9-9" stroke="#00e676" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cred-body"><strong>Clear methodology schools can review</strong><p>Every score is traceable back to a documented source and a defined criterion — no black boxes.</p></div></div>
+        <div class="cred-card"><div class="cred-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M2 8.5l4 4 9-9" stroke="#00e676" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cred-body"><strong>Evidence-based scoring</strong><p>Ratings are grounded in documented safety features, not vague opinions or self-reported data from schools.</p></div></div>
+        <div class="cred-card"><div class="cred-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M2 8.5l4 4 9-9" stroke="#00e676" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cred-body"><strong>Actionable recommendations</strong><p>Each category score comes with specific recommendations, helping schools understand exactly how to improve.</p></div></div>
+        <div class="cred-card"><div class="cred-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M2 8.5l4 4 9-9" stroke="#00e676" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cred-body"><strong>Connecticut pilot, then national expansion</strong><p>Designed to scale from a Fairfield County pilot to a national school safety platform over time.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer><p>COPYRIGHT &copy; 2026 IS YOUR SCHOOL SAFE? &mdash; ALL RIGHTS RESERVED</p></footer>
+</div>
+
+<!-- ═══════════ SCORECARDS ═══════════ -->
+<div class="tab" id="tab-scorecards">
+  <div class="sc-hero">
+    <div class="wrap-sm">
+      <div class="lbl">Connecticut Pilot</div>
+      <h1 class="h1">School Safety <span class="grad">Scorecards</span></h1>
+      <p class="sub" style="max-width:600px;margin:0 auto;">These sample results show how individual schools can be scored using the five-category framework. Each scorecard highlights strengths, gaps, and overall performance out of 100 points.</p>
+    </div>
+  </div>
+
+  <div class="sc-grid">
+    <!-- Stamford -->
+    <div class="school-card">
+      <div class="school-accent acc-blue"></div>
+      <div class="school-body">
+        <div class="school-top">
+          <div><div class="pilot-label">Pilot School 1</div><div class="school-name">Stamford High School</div></div>
+          <div class="score-bubble bubble-blue"><div class="score-big col-blue">82</div><div class="score-small">/ 100</div></div>
+        </div>
+        <p class="school-desc">Strong emergency systems and transparency, with room to strengthen classroom protection and building security.</p>
+        <div class="school-cats">
+          <div class="school-cat-row"><div class="sc-name">Prevention &amp; Support</div><div class="sc-track"><div class="sc-fill bg-bar-blue"   style="width:80%"></div></div><div class="sc-pts">20/25</div></div>
+          <div class="school-cat-row"><div class="sc-name">Building Security</div>     <div class="sc-track"><div class="sc-fill bg-bar-purple" style="width:80%"></div></div><div class="sc-pts">16/20</div></div>
+          <div class="school-cat-row"><div class="sc-name">Classroom Protection</div>  <div class="sc-track"><div class="sc-fill bg-bar-coral"  style="width:80%"></div></div><div class="sc-pts">8/10</div></div>
+          <div class="school-cat-row"><div class="sc-name">Emergency Response</div>    <div class="sc-track"><div class="sc-fill bg-bar-green"  style="width:90%"></div></div><div class="sc-pts">18/20</div></div>
+          <div class="school-cat-row"><div class="sc-name">Transparency &amp; Record</div><div class="sc-track"><div class="sc-fill bg-bar-amber"  style="width:80%"></div></div><div class="sc-pts">20/25</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bridgeport -->
+    <div class="school-card">
+      <div class="school-accent acc-purple"></div>
+      <div class="school-body">
+        <div class="school-top">
+          <div><div class="pilot-label">Pilot School 2</div><div class="school-name">Bridgeport High School</div></div>
+          <div class="score-bubble bubble-purple"><div class="score-big col-purple">78</div><div class="score-small">/ 100</div></div>
+        </div>
+        <p class="school-desc">Solid foundational safety systems with opportunities to improve transparency, building security, and prevention supports.</p>
+        <div class="school-cats">
+          <div class="school-cat-row"><div class="sc-name">Prevention &amp; Support</div><div class="sc-track"><div class="sc-fill bg-bar-blue"   style="width:72%"></div></div><div class="sc-pts">18/25</div></div>
+          <div class="school-cat-row"><div class="sc-name">Building Security</div>     <div class="sc-track"><div class="sc-fill bg-bar-purple" style="width:75%"></div></div><div class="sc-pts">15/20</div></div>
+          <div class="school-cat-row"><div class="sc-name">Classroom Protection</div>  <div class="sc-track"><div class="sc-fill bg-bar-coral"  style="width:80%"></div></div><div class="sc-pts">8/10</div></div>
+          <div class="school-cat-row"><div class="sc-name">Emergency Response</div>    <div class="sc-track"><div class="sc-fill bg-bar-green"  style="width:85%"></div></div><div class="sc-pts">17/20</div></div>
+          <div class="school-cat-row"><div class="sc-name">Transparency &amp; Record</div><div class="sc-track"><div class="sc-fill bg-bar-amber"  style="width:80%"></div></div><div class="sc-pts">20/25</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Norwalk -->
+    <div class="school-card">
+      <div class="school-accent acc-coral"></div>
+      <div class="school-body">
+        <div class="school-top">
+          <div><div class="pilot-label">Pilot School 3</div><div class="school-name">Norwalk High School</div></div>
+          <div class="score-bubble bubble-coral"><div class="score-big col-coral">76</div><div class="score-small">/ 100</div></div>
+        </div>
+        <p class="school-desc">Adequate emergency systems and classroom protections, with notable gaps in prevention resources and transparency.</p>
+        <div class="school-cats">
+          <div class="school-cat-row"><div class="sc-name">Prevention &amp; Support</div><div class="sc-track"><div class="sc-fill bg-bar-blue"   style="width:68%"></div></div><div class="sc-pts">17/25</div></div>
+          <div class="school-cat-row"><div class="sc-name">Building Security</div>     <div class="sc-track"><div class="sc-fill bg-bar-purple" style="width:75%"></div></div><div class="sc-pts">15/20</div></div>
+          <div class="school-cat-row"><div class="sc-name">Classroom Protection</div>  <div class="sc-track"><div class="sc-fill bg-bar-coral"  style="width:80%"></div></div><div class="sc-pts">8/10</div></div>
+          <div class="school-cat-row"><div class="sc-name">Emergency Response</div>    <div class="sc-track"><div class="sc-fill bg-bar-green"  style="width:90%"></div></div><div class="sc-pts">18/20</div></div>
+          <div class="school-cat-row"><div class="sc-name">Transparency &amp; Record</div><div class="sc-track"><div class="sc-fill bg-bar-amber"  style="width:72%"></div></div><div class="sc-pts">18/25</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brien McMahon -->
+    <div class="school-card">
+      <div class="school-accent acc-amber"></div>
+      <div class="school-body">
+        <div class="school-top">
+          <div><div class="pilot-label">Pilot School 4</div><div class="school-name">Brien McMahon High School <span style="font-size:.85rem;color:var(--text2);">(Norwalk)</span></div></div>
+          <div class="score-bubble bubble-amber"><div class="score-big col-amber">74</div><div class="score-small">/ 100</div></div>
+        </div>
+        <p class="school-desc">Developing safety systems with stronger emergency readiness than prevention and transparency infrastructure.</p>
+        <div class="school-cats">
+          <div class="school-cat-row"><div class="sc-name">Prevention &amp; Support</div><div class="sc-track"><div class="sc-fill bg-bar-blue"   style="width:64%"></div></div><div class="sc-pts">16/25</div></div>
+          <div class="school-cat-row"><div class="sc-name">Building Security</div>     <div class="sc-track"><div class="sc-fill bg-bar-purple" style="width:75%"></div></div><div class="sc-pts">15/20</div></div>
+          <div class="school-cat-row"><div class="sc-name">Classroom Protection</div>  <div class="sc-track"><div class="sc-fill bg-bar-coral"  style="width:80%"></div></div><div class="sc-pts">8/10</div></div>
+          <div class="school-cat-row"><div class="sc-name">Emergency Response</div>    <div class="sc-track"><div class="sc-fill bg-bar-green"  style="width:90%"></div></div><div class="sc-pts">18/20</div></div>
+          <div class="school-cat-row"><div class="sc-name">Transparency &amp; Record</div><div class="sc-track"><div class="sc-fill bg-bar-amber"  style="width:68%"></div></div><div class="sc-pts">17/25</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>COPYRIGHT &copy; 2026 IS YOUR SCHOOL SAFE? &mdash; ALL RIGHTS RESERVED</p></footer>
+</div>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<div class="tab" id="tab-contact">
+  <div class="contact-section">
+    <div class="lbl">Get In Touch</div>
+    <h1 class="h1">Contact Us</h1>
+    <p class="sub">Email us to nominate a school, partner in our research effort, or help drive actionable change within a Connecticut public high school.</p>
+    <div class="form-shell">
+      <form id="contactForm" onsubmit="handleForm(event)">
+        <div id="formFields">
+          <div class="form-row">
+            <label class="form-lbl" for="fname">Name</label>
+            <input class="form-input" type="text" id="fname" name="name" placeholder="Your full name" autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label class="form-lbl" for="femail">Email <span class="form-req">*</span></label>
+            <input class="form-input" type="email" id="femail" name="email" placeholder="you@example.com" required autocomplete="email">
+          </div>
+          <div class="form-row" style="margin-bottom:2rem;">
+            <label class="form-lbl" for="fmsg">Message</label>
+            <textarea class="form-textarea" id="fmsg" name="message" placeholder="Tell us about a school you'd like us to evaluate, or how you'd like to get involved..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Message</button>
+        </div>
+        <div class="success-msg" id="successMsg">
+          <div class="success-check">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-9" stroke="#00e676" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="h3" style="margin-bottom:.5rem;">Message sent!</div>
+          <p style="color:var(--text2);font-size:.9rem;line-height:1.65;">Thank you for reaching out. We'll get back to you shortly.</p>
+        </div>
+      </form>
+    </div>
+    <p class="contact-note">Part of the Fairfield County School Safety Initiative — a nonprofit concept built for transparency.</p>
+  </div>
+  <footer><p>COPYRIGHT &copy; 2026 IS YOUR SCHOOL SAFE? &mdash; ALL RIGHTS RESERVED</p></footer>
+</div>
+
+</main>
+
+<script>
+  function goTab(id) {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    document.getElementById('tab-' + id).classList.add('on');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function handleForm(e) {
+    e.preventDefault();
+    const name    = document.getElementById('fname').value.trim();
+    const email   = document.getElementById('femail').value.trim();
+    const message = document.getElementById('fmsg').value.trim();
+    document.getElementById('formFields').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('formFields').style.display = 'none';
+      document.getElementById('successMsg').classList.add('show');
+    }, 200);
+    const sub  = encodeURIComponent('School Safety Initiative — Contact Form');
+    const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message);
+    setTimeout(() => { window.location.href = 'mailto:contact@isyourschoolsafe.org?subject=' + sub + '&body=' + body; }, 700);
+  }
+</script>
+</body>
+</html>
